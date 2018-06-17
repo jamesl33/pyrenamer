@@ -51,6 +51,10 @@ class Renamer():
             except KeyError:
                 print('{0}: {1}'.format(index + 1, movie['title']))
 
+        if len(valid_imdb_movies) == 1:
+            print('Automatically choosing only result')
+            return valid_imdb_movies[0]
+
         return valid_imdb_movies[self._parse_input()]
 
     def _get_correct_tv_show(self, full_path):
@@ -67,11 +71,11 @@ class Renamer():
         for index, show in enumerate(valid_tvdb_shows):
             print('{0}: {1}'.format(index + 1, show['seriesName']))
 
-        while True:
-            try:
-                return Tvdb()[valid_tvdb_shows[self._parse_input()]['id']]
-            except IndexError:
-                continue
+        if len(valid_tvdb_shows) == 1:
+            print('Automatically choosing only result')
+            return Tvdb()[valid_tvdb_shows[0]['id']]
+
+        return Tvdb()[valid_tvdb_shows[self._parse_input()]['id']]
 
     def _rename_file(self, full_path, new_file_name):
         if os.path.basename(full_path) == new_file_name:
