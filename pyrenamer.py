@@ -17,10 +17,19 @@ from movie import Movie
 
 
 class Renamer():
+    """Automatically rename tv shows and movies using the TVDB and IMDB.
+    Args:
+        config (dict): Dictionary containing information to change the behaviour
+        of the program.
+    """
     def __init__(self, config):
         self.config = config
 
     def rename(self, directory):
+        """Rename all the valid files in the given directory
+        Args:
+            directory (str): The path to a folder containing valid files.
+        """
         movies, tv_shows = self._get_video_files(directory)
 
         for movie in movies:
@@ -36,6 +45,13 @@ class Renamer():
             self._rename_file(show.full_path, show.get_new_file_name(current_show[1]))
 
     def _get_correct_movie(self, full_path):
+        """Prompt the user to select the correct movie from the imdb search results
+        Args:
+            full_path (str): The path to the movie file.
+
+        Returns:
+            (imdb.Movie.Movie): The movie that the user chose.
+        """
         movie_info = guessit(full_path)
         imdb_movies = IMDb().search_movie(movie_info['title'])
         valid_imdb_movies = []
@@ -58,6 +74,12 @@ class Renamer():
         return valid_imdb_movies[self._parse_input()]
 
     def _get_correct_tv_show(self, full_path):
+        """
+        Args:
+            full_path (str): The path to the episode file.
+        Returns:
+            (tvdb_api.Show): The tv show that the user chose.
+        """
         tv_show_info = guessit(full_path)
         tvdb_shows = Tvdb().search(tv_show_info['title'])
         valid_tvdb_shows = []
@@ -78,6 +100,7 @@ class Renamer():
         return Tvdb()[valid_tvdb_shows[self._parse_input()]['id']]
 
     def _rename_file(self, full_path, new_file_name):
+        """Rename a valid file and respect whether the user wanted it to be a dry run."""
         if os.path.basename(full_path) == new_file_name:
             return
 
@@ -87,6 +110,14 @@ class Renamer():
 
     @classmethod
     def _get_video_files(cls, directory):
+        """Get all the valid movie/tv show files from the search directory.
+
+        Args:
+            directory (str): The directory to search in.
+
+        Returns:
+            (tuple): Two lists one for movie files another tv show files.
+        """
         movies = []
         tv_shows = []
 
@@ -108,6 +139,11 @@ class Renamer():
 
     @classmethod
     def _parse_input(cls):
+        """Prompt the user a number. Keep trying until we get what we want.
+
+        Returns:
+            (int): The users choice.
+        """
         while True:
             try:
                 user_input = input('Enter choice ')
@@ -125,6 +161,7 @@ class Renamer():
 
 
 def main():
+    """Main driver code containing the command line user interface."""
     parser = argparse.ArgumentParser(
         description=''
     )

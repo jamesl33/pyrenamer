@@ -12,6 +12,7 @@ from guessit import guessit
 
 
 class Movie():
+    """Allow the manipulation of data representing a movie"""
     def __init__(self, full_path):
         file_info = guessit(os.path.basename(full_path))
 
@@ -36,6 +37,14 @@ class Movie():
         return self.title
 
     def get_new_file_name(self, movie):
+        """Use imdb to create a new file name for the movie file.
+
+        Args:
+            movie (imdb.Movie.Movie): Information about the current movie fetched using imdbpy.
+
+        Returns:
+            (str): Generated file name.
+        """
         try:
             return '{0} ({1}){2}'.format(movie['title'],
                                          movie['year'],

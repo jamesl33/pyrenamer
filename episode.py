@@ -12,6 +12,7 @@ from guessit import guessit
 
 
 class Episode():
+    """Allow the manipulation of a tv show's episode file"""
     def __init__(self, full_path):
         file_info = guessit(os.path.basename(full_path))
 
@@ -31,6 +32,13 @@ class Episode():
         return (self.series_name, self.season_number, self.episode_number)
 
     def get_new_file_name(self, show):
+        """Generate a new file name for the tv show episode using TVDB.
+
+        Args:
+            show (tvdb_api.Show): TVDB show representing the current episode.
+
+        Returns (str): New file name for the current episode.
+        """
         episode_title = show[self.season_number][self.episode_number]['episodeName']
         return '{0} - S{1}E{2} - {3}{4}'.format(show['seriesname'],
                                                 str(self.season_number).zfill(2),
