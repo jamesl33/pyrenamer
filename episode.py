@@ -7,8 +7,10 @@ Supported Python version: 3.5.2+
 
 
 import os
+import re
 
 from guessit import guessit
+from tvdb_api import tvdb_seasonnotfound
 
 
 class Episode():
@@ -39,11 +41,18 @@ class Episode():
 
         Returns (str): New file name for the current episode.
         """
-        episode_title = show[self.season_number][self.episode_number]['episodeName']
+        try:
+            episode_title = show[self.season_number][self.episode_number]['episodeName']
+        except tvdb_seasonnotfound:
+            for index, season in enumerate(sorted(show)):
+                if index == self.season_number:
+                    self.season_number = season
+                    episode_title = show[season][self.episode_number]['episodeName']
+
         return '{0} - S{1}E{2} - {3}{4}'.format(show['seriesname'],
                                                 str(self.season_number).zfill(2),
                                                 str(self.episode_number).zfill(2),
-                                                episode_title,
+                                                re.sub('/', '-', episode_title),
                                                 os.path.splitext(self.full_path)[-1])
 
     def __str__(self):
