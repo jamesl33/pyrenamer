@@ -11,6 +11,7 @@ import os
 from guessit import guessit
 from imdb import IMDb
 from tvdb_api import Tvdb
+from tvdb_api import tvdb_shownotfound
 
 from episode import Episode
 from movie import Movie
@@ -81,7 +82,13 @@ class Renamer():
             (tvdb_api.Show): The tv show that the user chose.
         """
         tv_show_info = guessit(full_path)
-        tvdb_shows = Tvdb().search(tv_show_info['title'])
+
+        try:
+            tvdb_shows = Tvdb().search(tv_show_info['title'])
+        except tvdb_shownotfound:
+            print('Error: TV Show not found')
+            exit(1)
+
         valid_tvdb_shows = []
 
         for show in tvdb_shows:
