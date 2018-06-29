@@ -1,10 +1,13 @@
-FROM python:3
+FROM alpine:latest
 
-WORKDIR /usr/src/pyrenamer
+RUN apk add --update --no-cache build-base python3 python3-dev py3-pip libxml2 libxml2-dev libxslt libxslt-dev
 
-COPY . /usr/src/pyrenamer
+RUN pip3 install guessit tvdb_api imdbpy
 
-RUN pip install --no-cache-dir guessit imdbpy tvdb_api
+WORKDIR /usr/share/pyrenamer
 
-ENTRYPOINT ["python", "pyrenamer.py"]
+COPY . /usr/share/pyrenamer
+
+ENTRYPOINT ["python3", "pyrenamer.py"]
+
 CMD ["--help"]
