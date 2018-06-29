@@ -46,7 +46,6 @@ class Episode():
         except tvdb_seasonnotfound:
             for index, season in enumerate(sorted(show)):
                 if index == self.season_number:
-                    self.season_number = season
                     episode_title = show[season][self.episode_number]['episodeName']
 
         return '{0} - S{1}E{2} - {3}{4}'.format(show['seriesname'],
