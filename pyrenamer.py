@@ -168,13 +168,13 @@ class Renamer():
 def main():
     """Main driver code containing the command line user interface."""
     parser = argparse.ArgumentParser(
-        description=''
+        description='simple yet effective batch movie/tv show renamer'
     )
 
     parser.add_argument(
         'folder',
         action='store',
-        help='',
+        help='folder containing media files',
         type=str
     )
 
@@ -182,7 +182,7 @@ def main():
         '-d',
         '--dry-run',
         action='store_true',
-        help=''
+        help='run the program without making and changes'
     )
 
     arguments = parser.parse_args()

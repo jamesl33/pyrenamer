@@ -28,7 +28,8 @@ class Movie():
         except KeyError:
             self.year = None
 
-    def get_file_name(self):
+    @property
+    def file_name(self):
         return os.path.basename(self.full_path)
 
     def get_sortable_info(self):
@@ -54,4 +55,4 @@ class Movie():
                                    os.path.splitext(self.full_path)[-1])
 
     def __str__(self):
-        return self.get_file_name()
+        return self.get_file_name

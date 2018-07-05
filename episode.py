@@ -27,13 +27,9 @@ class Episode():
         self.season_number = file_info['season']
         self.episode_number = file_info['episode']
 
-    def get_file_name(self):
+    @property
+    def file_name(self):
         return os.path.basename(self.full_path)
-
-    def get_sortable_info(self):
-        if isinstance(self.episode_number, list):
-            return (self.series_name, self.season_number, self.episode_number[0])
-        return (self.series_name, self.season_number, self.episode_number)
 
     def get_new_file_name(self, show):
         """Generate a new file name for the tv show episode using TVDB.
@@ -44,17 +40,17 @@ class Episode():
         Returns (str): New file name for the current episode.
         """
         def _clean_title(title, multi_part=False):
-            expressions = ['\\(a.k.a. .*\\)']
+            expressions = [r'\(a.k.a. .*\)']
 
             if multi_part:
-                expressions += ['\\(\\d\\)', 'pt\\d', 'part\\d']
+                expressions += [r'\(\d\)', r'-pt\d', r'pt\d', r'-prt\d', r'prt\d', r'-part\d', r'part\d']
 
             for regex in expressions:
                 title = re.sub(re.compile(regex), '', title)
 
             re.sub('/', '-', title)
 
-            return title.rstrip()
+            return title.rstrip('')
 
         if isinstance(self.episode_number, list):
             try:
@@ -88,5 +84,11 @@ class Episode():
                                                 _clean_title(episode_title),
                                                 os.path.splitext(self.full_path)[-1])
 
+    def get_sortable_info(self):
+        try:
+            return (self.series_name, self.season_number, self.episode_number[0])
+        except TypeError:
+            return (self.series_name, self.season_number, self.episode_number)
+
     def __str__(self):
-        return self.get_file_name()
+        return self.file_name
