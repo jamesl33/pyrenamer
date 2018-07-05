@@ -43,6 +43,19 @@ class Episode():
 
         Returns (str): New file name for the current episode.
         """
+        def _clean_title(title, multi_part=False):
+            expressions = ['\\(a.k.a. .*\\)']
+
+            if multi_part:
+                expressions += ['\\(\\d\\)', 'pt\\d', 'part\\d']
+
+            for regex in expressions:
+                title = re.sub(re.compile(regex), '', title)
+
+            re.sub('/', '-', title)
+
+            return title.rstrip()
+
         if isinstance(self.episode_number, list):
             try:
                 episode_title = show[self.season_number][self.episode_number[0]]['episodeName']
@@ -51,16 +64,13 @@ class Episode():
                     if index == self.season_number:
                         episode_title = show[season][self.episode_number]['episodeName']
 
-            for regex in ['\\(\\d\\)', 'pt\\d', 'part\\d']:
-                episode_title = re.sub(re.compile(regex), '', episode_title)
-
             new_title = '{0} - '.format(show['seriesname'])
 
             for episode in self.episode_number:
                 new_title += 'S{0}E{1} - '.format(str(self.season_number).zfill(2),
                                                   str(episode).zfill(2))
 
-            new_title += '{0}{1}'.format(re.sub('/', '-', episode_title.rstrip()),
+            new_title += '{0}{1}'.format(_clean_title(episode_title, True),
                                          os.path.splitext(self.full_path)[-1])
 
             return new_title
@@ -75,7 +85,7 @@ class Episode():
         return '{0} - S{1}E{2} - {3}{4}'.format(show['seriesname'],
                                                 str(self.season_number).zfill(2),
                                                 str(self.episode_number).zfill(2),
-                                                re.sub('/', '-', episode_title.rstrip()),
+                                                _clean_title(episode_title),
                                                 os.path.splitext(self.full_path)[-1])
 
     def __str__(self):
