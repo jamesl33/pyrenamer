@@ -7,6 +7,7 @@ Supported Python version: 3.5.2+
 
 
 import os
+import re
 
 from guessit import guessit
 from imdb import IMDb
@@ -58,7 +59,7 @@ class Renamer():
         valid_imdb_movies = []
 
         for movie in imdb_movies:
-            if movie['kind'] == 'movie' and len(valid_imdb_movies) < 5:
+            if re.search('movie', movie['kind']) and len(valid_imdb_movies) < 5:
                 valid_imdb_movies.append(movie)
 
         print('\nIMDB Search Results for \'{0}\''.format(movie_info['title']))
