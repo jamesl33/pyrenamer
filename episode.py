@@ -48,7 +48,7 @@ class Episode():
             for regex in expressions:
                 title = re.sub(re.compile(regex), '', title)
 
-            re.sub('/', '-', title)
+            title = re.sub('/', '-', title)
 
             return title.rstrip('')
 
