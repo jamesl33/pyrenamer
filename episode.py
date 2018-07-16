@@ -14,7 +14,7 @@ from tvdb_api import tvdb_seasonnotfound
 
 
 class Episode():
-    """Allow the manipulation of a tv show's episode file"""
+    """Allow the manipulation of a tv show's episode file."""
     def __init__(self, full_path):
         file_info = guessit(os.path.basename(full_path))
 
@@ -39,7 +39,7 @@ class Episode():
     def get_new_file_name(self, show):
         """Generate a new file name for the tv show episode using TVDB.
 
-        Args:
+        Arguments:
             show (tvdb_api.Show): TVDB show representing the current episode.
 
         Returns (str): New file name for the current episode.

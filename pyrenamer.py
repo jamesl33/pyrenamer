@@ -20,7 +20,7 @@ from movie import Movie
 
 class Renamer():
     """Automatically rename tv shows and movies using the TVDB and IMDB.
-    Args:
+    Arguments:
         config (dict): Dictionary containing information to change the behaviour
         of the program.
     """
@@ -28,8 +28,8 @@ class Renamer():
         self.config = config
 
     def rename(self, directory):
-        """Rename all the valid files in the given directory
-        Args:
+        """Rename all the valid files in the given directory.
+        Arguments:
             directory (str): The path to a folder containing valid files.
         """
         movies, tv_shows = self._get_video_files(directory)
@@ -47,8 +47,8 @@ class Renamer():
             self._rename_file(show.full_path, show.get_new_file_name(current_show[1]))
 
     def _get_correct_movie(self, full_path):
-        """Prompt the user to select the correct movie from the imdb search results
-        Args:
+        """Prompt the user to select the correct movie from the imdb search results.
+        Arguments:
             full_path (str): The path to the movie file.
 
         Returns:
@@ -77,7 +77,7 @@ class Renamer():
 
     def _get_correct_tv_show(self, full_path):
         """
-        Args:
+        Arguments:
             full_path (str): The path to the episode file.
         Returns:
             (tvdb_api.Show): The tv show that the user chose.
@@ -120,7 +120,7 @@ class Renamer():
     def _get_video_files(cls, directory):
         """Get all the valid movie/tv show files from the search directory.
 
-        Args:
+        Arguments:
             directory (str): The directory to search in.
 
         Returns:
