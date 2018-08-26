@@ -23,12 +23,7 @@ class Episode():
                 raise ValueError('File name doesn\'t contain enough information')
 
         self.full_path = full_path
-
-        try:
-            self.series_name = '{0} {1}'.format(file_info['title'], file_info['release_group'])
-        except KeyError:
-            self.series_name = file_info['title']
-
+        self.series_name = file_info['title']
         self.season_number = file_info['season']
         self.episode_number = file_info['episode']
 
