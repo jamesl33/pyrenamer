@@ -131,7 +131,7 @@ class Renamer():
 
         for dirpath, _, filenames in os.walk(directory):
             for filename in filenames:
-                if os.path.splitext(filename)[-1] not in ['.avi', '.mp4', '.mkv']:
+                if os.path.splitext(filename)[-1] not in ['.avi', '.mp4', '.mkv', '.srt']:
                     continue
 
                 if guessit(filename)['type'] == 'movie':
